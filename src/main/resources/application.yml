@@ -1,0 +1,113 @@
+server:
+  port: 8090
+
+#spring:
+#  profiles:
+#    active: local
+#
+
+mybatis:
+  # mapper.xml location Setting
+  mapper-locations: mybatis/mapper/*.xml
+  # alias Setting
+  type-aliases-package: com.multi.restproduct.**.dto
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 로그 출력을 위한 설정
+
+
+#
+#image:
+#  add-resource-locations: /productimgs/
+#  add-resource-handler: /productimgs/**
+#
+#  # image-dir : 파일 저장 경로
+#  # image-url : 프론트에서 접근경로
+#  image-dir: /productimgs/
+#  image-url: http://localhost:8090/productimgs/
+
+spring:
+  profiles:
+    active: local
+  cloud:
+    aws:
+      credentials: # IAM으로 생성한 시크릿키 정보를 입력
+        access-key: ${AWS_ACCESS_KEY}
+        secret-key: ${AWS_SECRET_KEY}
+      S3:
+        bucket: sample-s3-multi666    #${S3_BUCKET_NAME} # bucket 이름
+        base-url: https://sample-s3-multi666.s3.ap-northeast-2.amazonaws.com/products/  #url복사해서붙이기
+      region:
+        static: ap-northeast-2  # bucket이 위치한 AWS 리전을 설정
+      stack:
+        auto: false # 자동 스택 생성 기능 사용여부를 설정 (자동 스택 생성: 애플리케이션이 실행, 배포될 때 인프라 리소스를 자동으로 생성하고 설정하는 것)
+
+
+
+springdoc:
+  group-configs:
+    - group: all
+      paths-to-match: /**
+
+#http://localhost:8090/swagger-ui/index.html
+# 프라이빗 rds 만들고
+#  Web.pem 이 있는 폴더에서  깃배시실행해서 권한부여 , 터널링
+#  -L은 "로컬 포트 포워딩 (Local Port Forwarding)" 을 의미
+#  이미 3306 을 로컬에서 쓰고있어서 1붙여서 실행하고  yml 파일에서 13306 포트로 변경해줌
+#  ssh -L [로컬포트]:[대상호스트]:[대상포트] 사용자@베스천IP
+
+
+#  chmod 400 web.pem
+#  ssh -i "web.pem" -L 13306:sample-db.cyvkocyw3bgy.ap-northeast-2.rds.amazonaws.com:3306 ubuntu@13.209.18.14
+---
+spring:
+  config:
+    activate:
+      on-profile: local,test
+  datasource:
+    url: jdbc:mysql://localhost:13306/scott
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
+
+logging:
+  level:
+    root: INFO
+    com.multi.restproduct: DEBUG
+    org.springframework.security: DEBUG
+
+    # JDBC 실행 로그 너무길어서 안보고싶으면끔
+    jdbc:
+      resultset: OFF
+      audit: OFF
+      connection: OFF
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${DB_PROD_URL}
+    username: ${DB_PROD_USER}
+    password: ${DB_PROD_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
+logging:
+  level:
+    root: INFO
+    com.multi.restproduct: INFO

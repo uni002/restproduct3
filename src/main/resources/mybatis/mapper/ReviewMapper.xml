@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.restproduct.review.dao.ReviewMapper">
+
+    <!-- 리뷰 리스트 조회 (Member와 Join) -->
+    <select id="selectReview" resultType="ReviewDto">
+        SELECT
+            r.review_code,
+            r.product_code,
+            r.member_code,
+            m.name AS member_name,
+            r.review_title,
+            r.review_content,
+            r.created_date
+        FROM review r
+                 JOIN member m ON r.member_code = m.no
+        WHERE r.product_code = #{productCode}
+    </select>
+
+    <!-- 리뷰 상세 조회 (Member와 Join) -->
+    <select id="selectReviewDetail" resultType="ReviewDto">
+        SELECT
+            r.review_code,
+            r.product_code,
+            r.member_code,
+            m.id AS member_id,
+            m.name AS member_name,
+            r.review_title,
+            r.review_content,
+            r.created_date
+        FROM review r
+                 JOIN member m ON r.member_code = m.id
+        WHERE r.review_code = #{reviewCode}
+    </select>
+
+    <!-- 리뷰 추가 -->
+    <insert id="insertReview" parameterType="ReviewDto">
+        INSERT INTO review
+        (
+            product_code,
+            member_code,
+            review_title,
+            review_content,
+            created_person
+        )
+        VALUES
+            (
+                #{productCode},
+                #{memberCode},
+                #{reviewTitle},
+                #{reviewContent},
+                #{memberCode}
+
+            )
+    </insert>
+
+    <!-- 총 리뷰 개수 조회 -->
+    <select id="selectReviewTotal" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM review
+        WHERE product_code = #{searchValue}
+    </select>
+
+    <!-- 페이징 처리된 리뷰 리스트 조회 (Member와 Join) -->
+    <select id="selectReviewListWithPaging" resultType="ReviewDto">
+        SELECT
+            r.review_code,
+            r.product_code,
+            r.member_code,
+            m.name AS member_name,
+            r.review_title,
+            r.review_content,
+            r.created_date
+        FROM review r
+                 JOIN member m ON r.member_code = m.id
+        WHERE r.product_code = #{productCode}
+        ORDER BY r.review_code DESC
+            LIMIT #{startRow}, #{limit}
+    </select>
+
+    <!-- 리뷰 업데이트 -->
+    <update id="updateReview" parameterType="ReviewDto">
+        UPDATE review
+        SET
+            review_title = #{reviewTitle},
+            review_content = #{reviewContent},
+            modified_date = NOW(),
+            modified_person = #{memberCode}
+        WHERE review_code = #{reviewCode}
+    </update>
+
+</mapper>

@@ -15,6 +15,9 @@ mybatis:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 로그 출력을 위한 설정
 
+jwt:
+  issuer: ${JWT_ISSUER}
+  secret: ${JWT_SECRET}
 
 #
 #image:

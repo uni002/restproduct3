@@ -79,3 +79,12 @@ spec:
 #      name: spring-boot-service
 #      port:
 #        number: 80
+
+
+
+#  Ingress 이름이 같으면
+#  -> 기존 ALB를 그대로 사용하고
+#  ->변경된 설정만 반영(update)됨
+#
+#  Ingress 이름이 달라지면
+#  -> 새로운 ALB가 생성됨

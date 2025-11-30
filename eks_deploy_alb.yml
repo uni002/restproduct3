@@ -63,19 +63,19 @@ metadata:
     alb.ingress.kubernetes.io/healthcheck-port: "traffic-port"  #port: 80 targetPort: 8090 이므로 ALB가 Service→Pod로 보낼 때 내부적으로 올바른 포트(=8090)로 전달되도록 컨트롤러가 처리
     # 필요 시 세부 설정 추가 (예: 인증, WAF, stickiness 등)
 spec:
-#  rules:
+  rules:
 #    - host: example.yourdomain.com    # 실제 도메인으로 교체.
-#      http:
-#        paths:
-#          - path: /
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: spring-boot-service
-#                port:
-#                  number: 80
-  defaultBackend:  #ALB DNS 이름(예: a12345-abcdef.ap-northeast-2.elb.amazonaws.com)으로 바로 접속
-    service:
-      name: spring-boot-service
-      port:
-        number: 80
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-boot-service
+                port:
+                  number: 80
+#  defaultBackend:  #ALB DNS 이름(예: a12345-abcdef.ap-northeast-2.elb.amazonaws.com)으로 바로 접속
+#    service:
+#      name: spring-boot-service
+#      port:
+#        number: 80

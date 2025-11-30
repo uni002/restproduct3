@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: crudapp
-          image: ${ECR_REPO_URI}:latest
+          image: ${ECR_REPO_URI}:${BUILD_NUMBER}
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"

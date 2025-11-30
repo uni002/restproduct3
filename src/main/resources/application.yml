@@ -10,7 +10,7 @@ mybatis:
   # mapper.xml location Setting
   mapper-locations: mybatis/mapper/*.xml
   # alias Setting
-  type-aliases-package: com.multi.restproduct.**.dto
+  type-aliases-package: com.multi.restproduct
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 로그 출력을 위한 설정

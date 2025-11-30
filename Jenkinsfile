@@ -8,7 +8,7 @@ pipeline {
         IMAGE_NAME = 'crudapp'
         IMAGE_TAG = 'latest'
         AWS_CREDENTIAL_NAME = 'aws_credentials'
-        DEPLOY_HOST = '43.200.101.179'
+        DEPLOY_HOST = '3.104.31.97'
         JWT_SECRET = credentials('JWT_SECRET')
         JWT_ISSUER = credentials('JWT_ISSUER')
         DB_PROD_URL = credentials('DB_PROD_URL')

@@ -38,7 +38,7 @@ spring:
         access-key: ${AWS_ACCESS_KEY}
         secret-key: ${AWS_SECRET_KEY}
       S3:
-        bucket: sample-s3-multi6666    #${S3_BUCKET_NAME} # bucket 이름
+        bucket: sample-s3-multi6666    #${S3_BUCKET_NAME} # bucket 이름 맞추기
         base-url: https://sample-s3-multi6666.s3.ap-northeast-2.amazonaws.com/products/  #url복사해서붙이기
       region:
         static: ap-northeast-2  # bucket이 위치한 AWS 리전을 설정
